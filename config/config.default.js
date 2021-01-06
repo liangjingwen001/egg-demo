@@ -35,6 +35,23 @@ module.exports = appInfo => {
       allowMethods: 'GET, PUT, POST, DELETE'
   }
 
+  config.sequelize = {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    username: 'root',
+    password: 'ljw12345',
+    port: 3306,
+    database: 'eggapi',
+    timezone: '+08:00',
+    define: {
+      // 取消数据表名负数
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  };
+
   return {
     ...config,
     ...userConfig,
