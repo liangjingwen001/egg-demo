@@ -44,7 +44,7 @@ module.exports = appInfo => {
     database: 'eggapi',
     timezone: '+08:00',
     define: {
-      // 取消数据表名负数
+      // 取消数据表名数
       freezeTableName: true,
       timestamps: true,
       createdAt: 'created_at',
