@@ -60,10 +60,10 @@ class UserController extends Controller {
     // 新增逻辑(post),api地址为 /api/user
     async create() {
         // 插入单条数据
-        let res = await this.app.model.User.create({
-            name: 'mahan',
-            password: 'abc123',
-        })
+        // let res = await this.app.model.User.create({
+        //     name: 'mahan',
+        //     password: 'abc123',
+        // })
 
         // 插入多条数据
         // let res = await this.app.model.User.bulkCreate([
@@ -84,6 +84,22 @@ class UserController extends Controller {
         //         password: 'abc123',
         //     }
         // ])
+
+        // 验证数据
+        let params = this.ctx.request.body;
+        this.ctx.validate({
+            name: {
+                type: 'string',
+                require: true,
+                desc: '用户名'
+            },
+            password: {
+                type: 'string',
+                require: true,
+                desc: '密码'
+            }
+        })
+        let res = await this.app.model.User.create(params)
         this.ctx.body = res;
     }
     // 详情页(get),api地址为 /api/user/:id
@@ -96,15 +112,36 @@ class UserController extends Controller {
         const { ctx } = this;
         ctx.body = 'edit';
     }
+
     // 更新页(put)
     async update() {
-        const { ctx } = this;
-        ctx.body = 'update';
+        let id = this.ctx.params.id ? parseInt(this.ctx.params.id) : 0;
+        let data = await this.app.model.User.findByPk(id);
+        // 修改单个字段
+        // data.name = '被修改了';
+        // let res = await data.save();
+        // 修改多个字段
+        let res = await data.update({name: 'java', password: 'lalala'})
+        this.ctx.body = res;
     }
+
     // 删除(delete)
     async delete() {
-        const { ctx } = this;
-        ctx.body = 'delete';
+        this.ctx.throw(500, '故意出错')
+        let id = this.ctx.params.id ? parseInt(this.ctx.params.id) : 0;
+        // 删除单条记录
+        // let data = await this.app.model.User.findByPk(id);
+        // let res = data.destroy();
+        // 删除多条
+        // let Op = this.app.model.Sequelize.Op;
+        // let res = await this.app.model.User.destroy({
+        //     where: {
+        //         id: {
+        //             [Op.lte]: 3
+        //         }
+        //     }
+        // });
+        // this.ctx.body = res;
     }
 }
 

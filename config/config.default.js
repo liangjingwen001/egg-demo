@@ -15,8 +15,17 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1609207970064_549';
 
-  // add your middleware config here
-  config.middleware = [];
+  // add your middleware config here中间件配置
+  config.middleware = ['errorHandler'];
+
+  config.errorHandler = {
+    // 是否开启中间件
+    // enable: false,
+    // 走中间件的api
+    match: ["/api/user/delete", "/api/user"],
+    // 不走中间件的api
+    // ignore: ["/api/user"]
+  };
 
   // add your user config here
   const userConfig = {
@@ -51,6 +60,11 @@ module.exports = appInfo => {
       updatedAt: 'updated_at'
     }
   };
+
+  config.valparams = {
+    locale: "zh-cn",
+    throwError: true
+  }
 
   return {
     ...config,
